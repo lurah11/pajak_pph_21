@@ -1,0 +1,58 @@
+{% extends 'pajak/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center">KALKULATOR PAJAK PENGHASILAN PPH 21</h1>
+    <h3 class="text-primary">Silahkan isi Data Anda sesuai Form Berikut : </h3>
+    <form id="form-pajak" method="post">
+        <div>
+            <label for="kawin_option" class="text-danger">Status Perkawinan</label>
+            <select name="marriage" class="form-select form-select-lg mb-3 form-floating mb-3" id="kawin_option" aria-label=".form-select-lg example">
+                <option selected value="kawin">Kawin</option>
+                <option value="tidak kawin">Tidak Kawin</option>
+            </select>
+        </div>
+       
+        <div class="form-floating mb-3">
+            <input  name ="no_of_children" type="number" class="form-control" id="floatingInput" placeholder="jumlah anak">
+            <label for="floatingInput" class="text-danger" min=0, max=20>Jumlah anak (bilangan bulat)</label>
+          </div>
+        <div class="form-floating mb-3">
+            <input name="income" type="number" class="form-control" id="floatingInputSalary" placeholder="penghasilan per bulan">
+            <label for="floatingInputSalary" class="text-danger">Penghasilan Per Bulan (dalam rupiah)</label>
+        </div>
+        <div class="col-auto">
+            <input type="submit" class="btn btn-primary mb-3" value="Hitung!"></button>
+        </div>
+    </form>
+
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">Hasil Perhitungan Pajak</h5>
+          <p class="card-text ">Rate Pajak: <span id="rate-pajak-result" class="text-primary"></span> </p>
+          <p class="card-text">Pajak : <span id="pajak-result" class="text-primary"></span></p>
+        </div>
+    </div>
+
+</div>
+<script>
+    const formPajak = document.getElementById('form-pajak')
+    formPajak.addEventListener('submit',(event)=>{
+        event.preventDefault()
+        const ratePajakResult = document.getElementById('rate-pajak-result')
+        const pajakResult=document.getElementById('pajak-result')
+        const url = "{% url 'calculate-view' %}"
+        formData = new FormData(event.target)
+        formData.append('csrfmiddlewaretoken','{{csrf_token}}')
+        fetch(url,{
+            method:'post',
+            body:formData
+        }).then((response)=>response.json())
+        .then((data)=>{
+            ratePajakResult.innerHTML = `${data["rate_pajak"]} %`
+            pajakResult.innerHTML = data["total_pajak"]
+        })
+    })
+</script>
+{% endblock content %}
+

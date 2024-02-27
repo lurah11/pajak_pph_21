@@ -1,0 +1,31 @@
+# this script is used inside django shell by using "python manage.py shell" command 
+
+import csv
+from pajak.models import Cat,Tier
+
+# populate cat table (contain category and group field)
+with open('data/cat.csv') as csvfile: 
+    reader = csv.reader(csvfile, delimiter=',')
+    for index,data in enumerate(reader) : 
+        if index == 0 : 
+            continue 
+        else : 
+            Cat.objects.create(
+                category=data[0],
+                group=data[1]
+            )
+
+#populate tier table (contain rate,from,to,and cat)
+with open('data/tier.csv') as csvfile: 
+    reader = csv.reader(csvfile, delimiter=',')
+    for index,data in enumerate(reader) : 
+        if index == 0 : 
+            continue 
+        else : 
+            Tier.objects.create(
+                no=data[0],
+                cat=data[1],
+                from_value=float(data[2].replace(",","")),
+                to_value=float(data[3].replace(",","")),
+                rate=float(data[4].replace(",",""))
+            )
