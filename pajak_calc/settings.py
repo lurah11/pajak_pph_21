@@ -29,7 +29,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['django-env.eba-95myr5pm.ap-southeast-1.elasticbeanstalk.com','localhost']
+ALLOWED_HOSTS = ['localhost','.vercel.app']
 
 
 # Application definition
@@ -72,7 +72,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'pajak_calc.wsgi.application'
+WSGI_APPLICATION = 'pajak_calc.wsgi.app'
 
 
 # Database
