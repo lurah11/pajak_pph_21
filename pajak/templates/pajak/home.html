@@ -14,7 +14,7 @@
         </div>
        
         <div class="form-floating mb-3">
-            <input  name ="no_of_children" type="number" class="form-control" id="floatingInput" placeholder="jumlah anak">
+            <input name ="no_of_children" type="number" class="form-control" id="floatingInput" placeholder="jumlah anak">
             <label for="floatingInput" class="text-danger" min=0, max=20>Jumlah anak (bilangan bulat)</label>
           </div>
         <div class="form-floating mb-3">
@@ -36,6 +36,13 @@
 
 </div>
 <script>
+    document.getElementById('floatingInput').addEventListener('wheel', function (e) {
+      e.preventDefault(); // Prevent scrolling behavior
+    });
+    document.getElementById('floatingInputSalary').addEventListener('wheel', function (e) {
+      e.preventDefault(); // Prevent scrolling behavior
+    });
+
     const formPajak = document.getElementById('form-pajak')
     formPajak.addEventListener('submit',(event)=>{
         event.preventDefault()
@@ -47,11 +54,18 @@
         fetch(url,{
             method:'post',
             body:formData
-        }).then((response)=>response.json())
+        }).then((response)=>{
+            if (response.status == 200) {
+                return response.json()
+            }
+            else {
+                alert("Ada Error Terjadi, mungkin form tidak lengkap atau ada error di server")
+            }
+        })
         .then((data)=>{
             ratePajakResult.innerHTML = `${data["rate_pajak"]} %`
             pajakResult.innerHTML = data["total_pajak"]
-        })
+        }).catch((error)=>alert(error))
     })
 </script>
 {% endblock content %}
