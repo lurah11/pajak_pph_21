@@ -29,7 +29,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','.vercel.app']
+ALLOWED_HOSTS = ['localhost','.vercel.app','lurah11.pythonanywhere.com']
 
 
 # Application definition
